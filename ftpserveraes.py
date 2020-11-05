@@ -4,7 +4,7 @@ from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-import os, random, struct
+import os, random, struct, sys
 from pbkdf2 import PBKDF2
 
 
@@ -109,7 +109,7 @@ def encrypt(in_filepath, out_filepath):
 
 def main():
     authorizer = DummyLenAuthorizer()
-    authorizer.add_user('alex', '', homedir='.', perm='elradfmwMT')
+    authorizer.add_user(sys.argv[1], '', homedir=sys.argv[2], perm='elradfmwMT')
     #authorizer.add_anonymous(homedir='.')
 
     handler = MyHandler
