@@ -114,6 +114,7 @@ def main():
 
     handler = MyHandler
     handler.authorizer = authorizer
+    handler.permit_foreign_addresses = True
     server = FTPServer(('', 9921), handler)
     server.serve_forever()
 
