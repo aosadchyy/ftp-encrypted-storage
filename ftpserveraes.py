@@ -85,7 +85,7 @@ def encrypt(in_filepath, out_filepath):
 
     iv = os.urandom(16)	# generate a 16 byte IV - Initialization vector which is used by AES algorithm with CBC to encrypt the first block of the file
     encryptor = AES.new(aes_key, AES.MODE_CBC, iv)	# create a new encryptor object
-    filesize = os.path.getsize(escape_linux_filename(in_filepath))			# calculate the size of the original file which we are going to encrypt
+    filesize = os.path.getsize(in_filepath)			# calculate the size of the original file which we are going to encrypt
     chunksize=64*1024								# initialize chunk size for block encryption
     
     with open(in_filepath, 'rb') as infile:
