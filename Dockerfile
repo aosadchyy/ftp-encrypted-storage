@@ -3,7 +3,7 @@
 FROM python:3.6
 
 # set the working directory in the container
-WORKDIR /code
+WORKDIR /
 
 # copy the dependencies file to the working directory
 COPY requirements.txt .
@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 COPY ftpserveraes.py .
 
 # command to run on container start
-CMD [ "python", "./ftpserveraes.py", "alex", "/ftp_data" ]
+CMD [ "python", "/ftpserveraes.py", "alex", "/ftp_data" ]
