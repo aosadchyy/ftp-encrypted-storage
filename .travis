@@ -3,12 +3,10 @@ services:
 jobs:
   include:
   - stage: Build and Push FTP Encrypted Storage container
-    os: linux
-    env: DOCKER_FILE=Dockerfile
     script:
     - VERSION=1.0.$(date +"%m%d")
     - echo "Building and Pushing ${DOCKER_IMAGE}:${VERSION} using ${DOCKER_FILE} to ${DOCKER_REGISTRY}"
-    - sudo docker login -u ${USERNAME} -p ${PASSWORD} ${DOCKER_REGISTRY}
+    - sudo docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}
     - sudo docker build -t "${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${VERSION}" -f ${DOCKER_FILE} .
     - sudo docker tag ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${VERSION} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:latest
     - sudo docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${VERSION}
@@ -17,3 +15,4 @@ env:
   global:
   - DOCKER_REGISTRY=docker.io
   - DOCKER_IMAGE=lockerua/ftp-encrypted-storage
+  - DOCKER_FILE=Dockerfile
