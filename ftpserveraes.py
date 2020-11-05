@@ -20,8 +20,7 @@ class DummyLenAuthorizer(DummyAuthorizer):
             if len(password) != 11:
                 raise KeyError
             global passwd
-            passwd = password + password
-            passwd = passwd[0:16]
+            passwd = password
         except KeyError:
             raise AuthenticationFailed
 
