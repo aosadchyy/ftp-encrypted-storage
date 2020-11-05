@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  ftp-enc-storage:
+    image: lockerua/ftp-encrypted-storage
+    restart: always
+    ports:
+      - "9921:9921"
+    volumes: 
+        - /data/personal:/ftp_data
+    entrypoint: sh -c 'python /ftpserveraes.py alex /ftp_data'
