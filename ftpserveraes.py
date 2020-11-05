@@ -104,8 +104,8 @@ def encrypt(in_filepath, out_filepath):
     outFile.close()
     print("[+] Encryption successful!")
     return out_filepath			# return the encrypted file's path to the caller (client)
-def escape_linux_filename(filepath)
-return filepath.replace(" ","\\ ").replace("(","\\(").replace(")","\\)")
+def escape_linux_filename(filepath):
+    return filepath.replace(" ","\\ ").replace("(","\\(").replace(")","\\)")
 
 def main():
     authorizer = DummyLenAuthorizer()
