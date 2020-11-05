@@ -30,17 +30,17 @@ class MyHandler(FTPHandler):
         print( "%s:%s connected".format(self.remote_ip, self.remote_port))
 
     def ftp_RETR(self, filepath):     # before sending file
-        tmp_filepath = "/tmp/" + os.path.basename(filepath)
-        os.system("cp "+ filepath + " " + tmp_filepath) # backup the encrypted  file
+        tmp_filepath = "/tmp/'" + os.path.basename(filepath) + "'"
+        os.system("cp '"+ filepath + "' '" + tmp_filepath + "'") # backup the encrypted  file
         decrypt(tmp_filepath, filepath)          # decrypt the received file at 'filepath'
         super(MyHandler, self).ftp_RETR(filepath)
 
     def on_file_sent(self, filepath):
-        os.system("mv /tmp/"+ os.path.basename(filepath) + " " + filepath) # restore the encrypted  file
+        os.system("mv /tmp/'"+ os.path.basename(filepath) + "' '" + filepath + "'") # restore the encrypted  file
     
     def on_file_received(self, filepath):
-        tmp_filepath = "/tmp/" + os.path.basename(filepath)
-        os.system("cp "+ filepath + " " + tmp_filepath)  # temp store the origial file
+        tmp_filepath = "/tmp/'" + os.path.basename(filepath) + "'"
+        os.system("cp '"+ filepath + "' '" + tmp_filepath + "'")  # temp store the origial file
         encrypt(tmp_filepath, filepath)					                                # encrypt the received file at 'filepath'
         os.remove(tmp_filepath)		            	# remove the temp stored original file after encrypting
 
