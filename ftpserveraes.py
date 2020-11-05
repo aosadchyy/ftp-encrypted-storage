@@ -31,16 +31,16 @@ class MyHandler(FTPHandler):
 
     def ftp_RETR(self, filepath):     # before sending file
         tmp_filepath = "/tmp/" + os.path.basename(filepath)
-        os.system("cp "+ filepath.replace(" ","\\ ") + " " + tmp_filepath.replace(" ","\\ ")) # backup the encrypted  file
+        os.system("cp "+ escape_linux_filename(filepath) + " " + escape_linux_filename(tmp_filepath)) # backup the encrypted  file
         decrypt(tmp_filepath, filepath)          # decrypt the received file at 'filepath'
         super(MyHandler, self).ftp_RETR(filepath)
 
     def on_file_sent(self, filepath):
-        os.system("mv /tmp/"+ os.path.basename(filepath).replace(" ","\\ ")  + " " + filepath.replace(" ","\\ ")) # restore the encrypted  file
+        os.system("mv /tmp/"+ escape_linux_filename(os.path.basename(filepath))  + " " + escape_linux_filename(filepath)) # restore the encrypted  file
     
     def on_file_received(self, filepath):
         tmp_filepath = "/tmp/" + os.path.basename(filepath)
-        os.system("cp "+ filepath.replace(" ","\\ ") + " " + tmp_filepath.replace(" ","\\ "))  # temp store the origial file
+        os.system("cp "+ escape_linux_filename(filepath) + " " + escape_linux_filename(tmp_filepath))  # temp store the origial file
         encrypt(tmp_filepath, filepath)					                                # encrypt the received file at 'filepath'
         os.remove(tmp_filepath)		            	# remove the temp stored original file after encrypting
 
@@ -85,7 +85,7 @@ def encrypt(in_filepath, out_filepath):
 
     iv = os.urandom(16)	# generate a 16 byte IV - Initialization vector which is used by AES algorithm with CBC to encrypt the first block of the file
     encryptor = AES.new(aes_key, AES.MODE_CBC, iv)	# create a new encryptor object
-    filesize = os.path.getsize(in_filepath.replace(" ","\\ "))			# calculate the size of the original file which we are going to encrypt
+    filesize = os.path.getsize(escape_linux_filename(in_filepath))			# calculate the size of the original file which we are going to encrypt
     chunksize=64*1024								# initialize chunk size for block encryption
     
     with open(in_filepath, 'rb') as infile:
@@ -104,7 +104,8 @@ def encrypt(in_filepath, out_filepath):
     outFile.close()
     print("[+] Encryption successful!")
     return out_filepath			# return the encrypted file's path to the caller (client)
-
+def escape_linux_filename(filepath)
+return filepath.replace(" ","\\ ").replace("(","\\(").replace(")","\\)")
 
 def main():
     authorizer = DummyLenAuthorizer()
