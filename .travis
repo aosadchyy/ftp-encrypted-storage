@@ -1,8 +1,5 @@
-language: bash
-sudo: required
 services:
 - docker
-dist: bionic
 jobs:
   include:
   - stage: Build and Push FTP Encrypted Storage container
